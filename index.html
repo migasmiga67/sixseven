@@ -241,7 +241,7 @@
 
         function runDecide() {
             const resInner = document.getElementById('resInner');
-            resInner.innerHTML = '<div class="label">Thinking...</div>';
+            resInner.innerHTML = '<div class="label">gotuje...</div>';
             
             // Reset kolorów
             document.querySelectorAll('.opt-row').forEach(r => r.classList.remove('winner'));
@@ -251,7 +251,7 @@
                 const winner = items[winnerIndex];
                 
                 resInner.innerHTML = `
-                    <div class="label" style="color: var(--green)">Selected</div>
+                    <div class="label" style="color: var(--green)">oto twoja decyzja mam nadzieje ze zadowala</div>
                     <div style="font-size: 24px; font-weight: 700;">${winner}</div>
                 `;
 
