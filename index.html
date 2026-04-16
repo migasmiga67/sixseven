@@ -1,0 +1,175 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06060e;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --blue:#4DFFFF;--purple:#B47FFF;--green:#39FF96;
+  --blue-dim:rgba(77,255,255,0.12);
+  --text:#F0F0FF;--text-muted:rgba(240,240,255,0.45);--text-dim:rgba(240,240,255,0.25);
+  --border:rgba(255,255,255,0.08);--border-hi:rgba(77,255,255,0.3);
+  --r:16px;--r-sm:10px;--r-full:100px;
+  --ff:'Space Grotesk',sans-serif;
+}
+.app{background:var(--bg);font-family:var(--ff);color:var(--text);min-height:100dvh;padding:2.5rem 1.5rem 3rem;max-width:520px;margin:0 auto;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.bg-glow{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-glow-1{width:400px;height:400px;background:var(--purple);top:-120px;right:-120px;}
+.bg-glow-2{width:320px;height:320px;background:var(--blue);bottom:0;left:-100px;}
+.bg-glow-3{width:200px;height:200px;background:var(--green);top:50%;left:50%;transform:translate(-50%,-50%);}
+.wordmark{font-size:11px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:3.5rem;position:relative;}
+.wordmark span{color:var(--blue);}
+.hero{position:relative;margin-bottom:2.5rem;}
+.hero-label{font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem;}
+.hero-input{width:100%;background:transparent;border:none;outline:none;font-family:var(--ff);font-size:clamp(2rem,7vw,3.2rem);font-weight:700;color:var(--text);line-height:1.1;caret-color:var(--blue);resize:none;overflow:hidden;}
+.hero-input::placeholder{color:rgba(240,240,255,0.18);}
+.hero-underline{height:1px;margin-top:1rem;background:linear-gradient(90deg,var(--blue) 0%,var(--purple) 60%,transparent 100%);opacity:0.45;transition:opacity 0.3s;}
+.hero-input:focus~.hero-underline{opacity:1;}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.section-label{font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);}
+.opts-count{font-size:11px;font-weight:600;color:var(--blue);letter-spacing:0.05em;}
+.opts-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;font-weight: 500;}
+.opt-row{font-weight:500;display:flex;align-items:center;gap:10px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;transition:border-color 0.2s,background 0.2s;animation:rowIn 0.25s cubic-bezier(.34,1.56,.64,1);}
+.opt-row.winner{border-color:var(--green);background:rgba(57,255,150,0.06);}
+.opt-num{font-size:11px;font-weight:600;color:var(--text-dim);min-width:16px;}
+.opt-row.winner .opt-num{color:var(--green);}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:16px;line-height:1;padding:0;transition:color 0.15s,transform 0.15s;display:flex;align-items:center;}
+.del-btn:hover{color:#FF6B6B;transform:scale(1.15);}
+.add-row{display:flex;gap:8px;margin-bottom:2.5rem;}
+.add-input{flex:1;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;font-family:var(--ff);font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;}
+.add-input:focus{border-color:var(--border-hi);}
+.add-input::placeholder{color:var(--text-dim);}
+.add-btn{background:var(--blue-dim);border:0.5px solid rgba(77,255,255,0.35);border-radius:var(--r-sm);width:44px;height:44px;color:var(--blue);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;flex-shrink:0;}
+.add-btn:hover{background:rgba(77,255,255,0.22);}
+.add-btn:active{transform:scale(0.93);}
+.cta-btn{width:100%;padding:18px;border-radius:var(--r-full);font-family:var(--ff);font-size:14px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;border:none;outline:none;position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.3s,opacity 0.3s;background:linear-gradient(135deg,#1a8cff 0%,#7c3fff 50%,#00ffe0 100%);color:#fff;box-shadow:0 0 40px rgba(77,100,255,0.25),0 8px 32px rgba(0,0,0,0.4);margin-bottom:2.5rem;}
+.cta-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transition:left 0.5s;}
+.cta-btn:hover::before{left:100%;}
+.cta-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 60px rgba(77,100,255,0.45),0 12px 40px rgba(0,0,0,0.5);}
+.cta-btn:active:not(:disabled){transform:scale(0.97);}
+.cta-btn:disabled{opacity:0.25;cursor:not-allowed;}
+.result-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;position:relative;overflow:hidden;transition:border-color 0.4s,box-shadow 0.4s;min-height:120px;display:flex;align-items:center;justify-content:center;}
+.result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);}
+.result-card.active{border-color:rgba(57,255,150,0.4);box-shadow:0 0 60px rgba(57,255,150,0.08),inset 0 0 40px rgba(57,255,150,0.03);}
+.result-inner{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;}
+.result-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--green);border:0.5px solid rgba(57,255,150,0.35);background:rgba(57,255,150,0.08);border-radius:var(--r-full);padding:5px 14px;}
+.result-winner{font-size:clamp(2rem,8vw,3rem);font-weight:700;color:var(--text);line-height:1.1;animation:pop 0.4s cubic-bezier(.34,1.56,.64,1);}
+.result-sub{font-size:13px;color:var(--text-muted);line-height:1.6;font-weight:400;}
+.spinner{width:36px;height:36px;border-radius:50%;border:2px solid rgba(77,255,255,0.15);border-top-color:var(--blue);animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pop{from{opacity:0;transform:scale(0.7) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+</style>
+
+<div class="app">
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="wordmark">decide<span>.</span></div>
+
+  <div class="hero">
+    <div class="hero-label">the question</div>
+    <textarea class="hero-input" id="questionInput" placeholder="What can't you decide?" rows="2" oninput="autoResize(this)"></textarea>
+    <div class="hero-underline"></div>
+  </div>
+
+  <div class="section-head">
+    <div class="section-label">options</div>
+    <div class="opts-count" id="optsCount">0 / 10</div>
+  </div>
+  <div class="opts-list" id="optsList"></div>
+
+  <div class="add-row">
+    <input class="add-input" id="addInput" placeholder="Type an option and add…" maxlength="60" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="add-btn" onclick="addOpt()">+</button>
+  </div>
+
+  <button class="cta-btn" id="ctaBtn" onclick="decide()" disabled>Decide for me</button>
+
+  <div class="section-label" style="margin-bottom:1rem;">result</div>
+  <div class="result-card" id="resultCard">
+    <div class="result-inner" id="resultInner"></div>
+  </div>
+</div>
+
+<script>
+let opts = JSON.parse(localStorage.getItem('decide-opts2') || '[]');
+let busy = false;
+
+function save(){localStorage.setItem('decide-opts2', JSON.stringify(opts));}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+
+function renderOpts(){
+  const list = document.getElementById('optsList');
+  document.getElementById('optsCount').textContent = opts.length + ' / 10';
+  document.getElementById('ctaBtn').disabled = opts.length < 2;
+  list.innerHTML = opts.map((o,i)=>`
+    <div class="opt-row" id="or${i}">
+      <span class="opt-num">${String(i+1).padStart(2,'0')}</span>
+      <span style="flex:1;font-size:15px;font-weight:400;color:var(--text);">${esc(o)}</span>
+      <button class="del-btn" onclick="delOpt(${i})">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg>
+      </button>
+    </div>`).join('');
+}
+
+function addOpt(){
+  const inp = document.getElementById('addInput');
+  const v = inp.value.trim();
+  if(!v || opts.includes(v) || opts.length >= 10){if(v)inp.select();return;}
+  opts.push(v); inp.value=''; save(); renderOpts(); resetResult();
+}
+
+function delOpt(i){opts.splice(i,1); save(); renderOpts(); resetResult();}
+
+function resetResult(){
+  const rc = document.getElementById('resultCard');
+  rc.className = 'result-card';
+  document.getElementById('resultInner').innerHTML = '';
+  busy = false;
+}
+
+function decide(){
+  if(busy || opts.length < 2) return;
+  busy = true;
+  const rc = document.getElementById('resultCard');
+  const ri = document.getElementById('resultInner');
+  const winner = opts[Math.floor(Math.random() * opts.length)];
+  rc.className = 'result-card';
+  ri.innerHTML = '<div class="spinner"></div>';
+  document.querySelectorAll('.opt-row').forEach(r=>r.classList.remove('winner'));
+  if(navigator.vibrate) navigator.vibrate([10,20,10]);
+  setTimeout(()=>reveal(winner), 900 + Math.random()*400);
+}
+
+const explanations = [
+  "It's the clear front-runner given the context.",
+  "Sometimes fate makes the best choices.",
+  "A bold pick — trust the process.",
+  "The universe has spoken. Go with it.",
+  "Statistically random, intuitively right.",
+  "Your gut knew this all along.",
+];
+
+function reveal(winner){
+  const rc = document.getElementById('resultCard');
+  const ri = document.getElementById('resultInner');
+  rc.className = 'result-card active';
+  const expl = explanations[Math.floor(Math.random() * explanations.length)];
+  ri.innerHTML = `
+    <div class="result-tag">decided</div>
+    <div class="result-winner">${esc(winner)}</div>
+    <div class="result-sub">${expl}</div>`;
+  const idx = opts.indexOf(winner);
+  const row = document.getElementById('or'+idx);
+  if(row) row.classList.add('winner');
+  if(navigator.vibrate) navigator.vibrate([0,80,50,60,0]);
+  setTimeout(()=>{busy=false;}, 600);
+}
+
+document.getElementById('addInput').addEventListener('keydown', e=>{if(e.key==='Enter')addOpt();});
+document.getElementById('questionInput').addEventListener('keydown', e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addInput').focus();}});
+
+renderOpts();
+</script>
